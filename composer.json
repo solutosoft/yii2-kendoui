@@ -1,0 +1,27 @@
+{
+    "name": "solutosoft/yii2-kendo",
+    "description": "Yii 2 Kendo UI Extension",
+    "keywords": ["yii", "yii2", "widget", "kendo", "kendoui"],
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://github.com/solutosoft/yii2-kendoui/issues",
+        "source": "https://github.com/solutosoft/yii2-kendoui"
+    },
+    "minimum-stability": "dev",
+    "authors": [{
+        "name": "Leandro Guindani Gehlen",
+        "email": "leandrogehlen@gmail.com"
+    }],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "solutosoft\\kendoui\\": ""
+        }
+    }
+}
