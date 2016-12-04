@@ -1,5 +1,5 @@
 {
-    "name": "solutosoft/yii2-kendo",
+    "name": "solutosoft/yii2-kendoui",
     "description": "Yii 2 Kendo UI Extension",
     "keywords": ["yii", "yii2", "widget", "kendo", "kendoui"],
     "type": "yii2-extension",
@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "solutosoft\\kendoui\\": ""
+            "soluto\\kendoui\\": ""
         }
     }
 }
