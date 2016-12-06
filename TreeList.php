@@ -7,5 +7,5 @@ class TreeList extends Widget
     /**
      * @inheritdoc
      */
-    public $pluginName = 'kendoSpreadsheet';
+    public $pluginName = 'kendoTreeList';
 }
