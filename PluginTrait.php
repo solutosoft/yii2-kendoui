@@ -24,7 +24,7 @@ trait PluginTrait
     public function registerPlugin()
     {
         $id = $this->getId();
-        $options = Json::encode($this->pluginOptions);
+        $options = $this->pluginOptions ? Json::encode($this->pluginOptions) : '';
 
         $view = $this->getView();
         $view->registerJs("jQuery('#$id').{$this->pluginName}($options);");
