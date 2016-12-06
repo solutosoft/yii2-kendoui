@@ -2,10 +2,10 @@
 
 namespace soluto\kendoui;
 
-class Grid extends Widget
+class TreeList extends Widget
 {
     /**
      * @inheritdoc
      */
-    public $pluginName = 'kendoGrid';
+    public $pluginName = 'kendoTreeList';
 }

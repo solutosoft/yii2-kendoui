@@ -21,10 +21,10 @@ trait PluginTrait
      * @param array $options
      * @return void
      */
-    public function registerPlugin($options)
+    public function registerPlugin()
     {
         $id = $this->getId();
-        $options = Json::encode($options);
+        $options = Json::encode($this->pluginOptions);
 
         $view = $this->getView();
         $view->registerJs("jQuery('#$id').{$this->pluginName}($options);");
