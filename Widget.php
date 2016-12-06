@@ -2,7 +2,7 @@
 
 namespace soluto\kendoui;
 
-use yii\helpers\html;
+use yii\helpers\Html;
 
 class Widget extends \yii\base\Widget
 {
