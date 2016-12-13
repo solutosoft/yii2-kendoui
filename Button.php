@@ -25,6 +25,6 @@ class Button extends Widget
 
         echo Html::button($this->content, ['id' => $id]);
 
-        $this->registerPlugin();
+        $this->registerPlugin($id);
     }
 }

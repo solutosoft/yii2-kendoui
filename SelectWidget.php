@@ -23,6 +23,6 @@ class SelectWidget extends InputWidget
             echo Html::dropDownList($this->name, $this->value, $this->items, $this->options);
         }
 
-        $this->registerPlugin();
+        $this->registerPlugin($this->options['id']);
     }
 }

@@ -22,6 +22,6 @@ class Editor extends InputWidget
             echo Html::textarea($this->name, $this->value, $this->options);
         }
 
-        $this->registerPlugin();
+        $this->registerPlugin($this->options['id']);
     }
 }

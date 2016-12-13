@@ -22,6 +22,6 @@ class Upload extends InputWidget
             echo Html::fileInput($this->name, $this->value, $this->options);
         }
 
-        $this->registerPlugin();
+        $this->registerPlugin($this->options['id']);
     }
 }

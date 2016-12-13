@@ -19,6 +19,6 @@ class InputWidget extends \yii\widgets\InputWidget
             echo Html::textInput($this->name, $this->value, $this->options);
         }
 
-        $this->registerPlugin();
+        $this->registerPlugin($this->options['id']);
     }
 }

@@ -17,6 +17,6 @@ class Widget extends \yii\base\Widget
 
         echo Html::tag('div', '', ['id' => $id]);
 
-        $this->registerPlugin();
+        $this->registerPlugin($id);
     }
 }

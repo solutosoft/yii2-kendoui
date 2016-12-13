@@ -2,7 +2,7 @@
 
 namespace soluto\kendoui;
 
-use yii\helpers\ArrayHelper;
+use yii\base\InvalidConfigException;
 use yii\helpers\Html;
 
 class ListWidget extends Widget
@@ -28,9 +28,11 @@ class ListWidget extends Widget
      */
     public function run()
     {
-        echo $this->renderList($this->items, $this->getId());
+        $id = $this->getId();
 
-        $this->registerPlugin();
+        echo $this->renderList($this->items, $id);
+
+        $this->registerPlugin($id);
     }
 
     /**

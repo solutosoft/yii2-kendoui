@@ -18,12 +18,11 @@ trait PluginTrait
 
     /**
      * Register plugin options
-     * @param array $options
+     * @param string $id
      * @return void
      */
-    public function registerPlugin()
+    public function registerPlugin($id)
     {
-        $id = $this->getId();
         $options = $this->pluginOptions ? Json::encode($this->pluginOptions) : '';
 
         $view = $this->getView();

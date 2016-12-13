@@ -22,6 +22,6 @@ class MobileSwitch extends InputWidget
             echo Html::checkbox($this->name, $this->value, $this->options);
         }
 
-        $this->registerPlugin();
+        $this->registerPlugin($this->options['id']);
     }
 }
