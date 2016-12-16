@@ -2,8 +2,10 @@
 
 namespace soluto\kendoui;
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
+use yii\web\JsExpression;
 
 class SelectWidget extends InputWidget
 {
@@ -14,7 +16,7 @@ class SelectWidget extends InputWidget
     public $items = [];
 
     /**
-     * @var string the initial selected element
+     * @var array the initial selected item
      */
     public $selected = [];
 
@@ -24,6 +26,7 @@ class SelectWidget extends InputWidget
     public function run()
     {
         $options = $this->options;
+        $id = $options['id'];
 
         if ($this->hasModel()) {
             echo Html::activeDropDownList($this->model, $this->attribute, $this->items, $options);
@@ -31,25 +34,27 @@ class SelectWidget extends InputWidget
             echo Html::dropDownList($this->name, $this->value, $this->items, $options);
         }
 
-        $value = isset($options['value']) ? $options['value'] : null;
-        if ($value === null) {
+        if (isset($options['value'])) {
+            $value = $options['value'];
+        } else {
             $value = $this->hasModel() ? Html::getAttributeValue($this->model, $this->attribute) : $this->value;
         }
 
-        $id = $options['id'];
-        $this->registerPlugin($id);
-
-        $plugin = "$('#$id').data('$this->pluginName')";
-        $view = $this->getView();
+        if ($value) {
+            $this->pluginOptions['value'] = $value;
+        }
 
         if (!empty($this->selected) && array_filter(array_values($this->selected))) {
             $selected = Json::encode($this->selected);
-            $view->registerJs("$plugin.dataSource.add($selected);");
+            $results = "jQuery('#$id').data('$this->pluginName').options.dataSource.schema.data";
+
+            $this->pluginOptions = ArrayHelper::merge([
+                'dataSource' => [
+                    'requestEnd' => new JsExpression("function(e){var results = e.response[$results]; results.unshift($selected); }")
+                ]
+            ], $this->pluginOptions);
         }
 
-        if ($value !== null) {
-            $view->registerJs("$plugin.value($value);");
-            $view->registerJs("$plugin.trigger('change');");
-        }
+        $this->registerPlugin($id);
     }
 }
