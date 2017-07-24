@@ -66,7 +66,11 @@ class SelectWidget extends InputWidget
             $value = $this->hasModel() ? Html::getAttributeValue($this->model, $this->attribute) : $this->value;
         }
 
-        $this->pluginOptions['value'] = $value;        
+        if ($value === null) {
+            $value = '';
+        }
+
+        $this->pluginOptions['value'] = $value;
 
         if (!empty($this->selected) && array_filter(array_values($this->selected))) {
             $selected = Json::encode($this->selected);
