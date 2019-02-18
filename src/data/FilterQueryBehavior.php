@@ -35,17 +35,30 @@ class FilterQueryBehavior extends Behavior
         'isnotempty' => '!='
     ];
 
+    /**
+     * Filters query from $data configuration.
+     * @param array $data
+     * @return \yii\db\ActiveQueryInterface|static
+     */
     public function filter($data)
     {
         $condition = $this->buildCondition($data);
-        $sort = ArrayHelper::getValue($data, 'sort', []);
+        return $this->addFilterCondition($condition);
+    }
 
-        foreach ($sort as $info) {
+    /**
+     * Sorts query from $sort configuration
+     * @param array $sort
+     * @return \yii\db\ActiveQueryInterface|static
+     */
+    public function sort($sort)
+    {
+        foreach ((array)$sort as $info) {
             $order = $this->normalizeFieldName($info['field']) . ' ' . $info['dir'];
             $this->owner->addOrderBy($order);
         }
 
-        return $this->addFilterCondition($condition);
+        return $this->owner;
     }
 
      /**

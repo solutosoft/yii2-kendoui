@@ -16,7 +16,17 @@ class FilterQueryBehaviorTest extends TestCase
     public function testFilter()
     {
         foreach ($this->rulesProvider() as $rule) {
-           $sql = Person::find()->filter($rule['filter'])->createCommand()->getRawSql();
+           $query = Person::find()
+                ->filter($rule['filter']);
+
+            if (isset($rule['sort'])) {
+                $query->sort($rule['sort']);
+            }
+
+            $sql = $query
+                ->createCommand()
+                ->getRawSql();
+
            $this->assertContains($rule['expected'], $sql);
        }
     }
@@ -51,10 +61,10 @@ class FilterQueryBehaviorTest extends TestCase
                             ]
                         ]
                     ],
-                    'sort' => [
-                        ['field' => 'firstName', 'dir' => 'asc'],
-                        ['field' => 'lastName', 'dir' => 'desc'],
-                    ]
+                ],
+                'sort' => [
+                    ['field' => 'firstName', 'dir' => 'asc'],
+                    ['field' => 'lastName', 'dir' => 'desc'],
                 ]
             ]/*,[
                 'expected' => '(`email` = ?)',
