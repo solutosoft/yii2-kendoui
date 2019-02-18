@@ -21,7 +21,8 @@
     },
     "autoload": {
         "psr-4": {
-            "soluto\\kendoui\\": ""
+            "soluto\\kendoui\\": "src",
+            "soluto\\kendoui\\tests\\": "tests"
         }
     }
 }
