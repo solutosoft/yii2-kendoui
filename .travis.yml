@@ -15,11 +15,14 @@ cache:
   directories:
     - $HOME/.composer/cache
 
+before_install:
+ - chmod +x ./tests/yii
+
 install:
   - travis_retry composer self-update && composer --version
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - travis_retry composer install --prefer-dist --no-interaction
 
 script:
-  - tests/yii migrate
+  - ./tests/yii migrate
   - phpunit $PHPUNIT_FLAGS
