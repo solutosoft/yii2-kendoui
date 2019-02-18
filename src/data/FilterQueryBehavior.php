@@ -3,12 +3,8 @@
 namespace soluto\kendoui\data;
 
 use yii\base\Behavior;
-use yii\data\DataFilter;
-use yii\helpers\ArrayHelper;
-use yii\base\DynamicModel;
-use yii\data\ActiveDataFilter;
 use yii\db\Expression;
-
+use yii\helpers\ArrayHelper;
 
 class FilterQueryBehavior extends Behavior
 {
