@@ -2,6 +2,7 @@
 
 namespace soluto\kendoui\data;
 
+use Yii;
 use yii\base\Behavior;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
@@ -116,24 +117,10 @@ class FilterQueryBehavior extends Behavior
                $operator = ArrayHelper::getValue($item, 'operator');
                $value = ArrayHelper::getValue($item, 'value');
 
-               switch ($operator) {
-                    case 'startswith':
-                        $value = $this->formatLikeValue("%{$value}");
-                        break;
-
-                    case 'endswith':
-                        $value = $this->formatLikeValue("{$value}%");
-                        break;
-
-                    case 'contains':
-                        $value = $this->formatLikeValue("%{$value}%");
-                        break;
-               }
-
                $condition = [
                    $this->_filterOperators[$operator],
                    $this->normalizeFieldName($field),
-                   $value
+                   $this->formatValue($operator, $value)
                 ];
 
                $result = empty($result) ? $condition : [$logic, $result, $condition];
@@ -144,13 +131,33 @@ class FilterQueryBehavior extends Behavior
     }
 
     /**
-     * Replaces space character by '%'
+     * Format value used in condition
+     * @param string $operator
      * @param string $value
      * @return \yii\db\Expression
      */
-    private function formatLikeValue($value)
+    private function formatValue($operator, $value)
     {
-        return new Expression(preg_replace('/\s+/', '%', "'$value'"));
+        if (!in_array($operator, ['startswith', 'endswith', 'contains'])) {
+            return $value;
+        }
+
+        switch ($operator) {
+            case 'startswith':
+                $value = "%" . $value;
+                break;
+
+            case 'endswith':
+                $value = $value . "%";
+                break;
+
+            case 'contains':
+                $value = "%". $value ."%";
+                break;
+       }
+
+       $value = preg_replace('/\s+/', '%', $value);
+       return new Expression(Yii::$app->db->quoteValue($value));
     }
 
 }
