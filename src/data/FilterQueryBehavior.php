@@ -144,11 +144,11 @@ class FilterQueryBehavior extends Behavior
 
         switch ($operator) {
             case 'startswith':
-                $value = "%" . $value;
+                $value = $value . "%";
                 break;
 
             case 'endswith':
-                $value = $value . "%";
+                $value = "%" . $value;
                 break;
 
             case 'contains':
