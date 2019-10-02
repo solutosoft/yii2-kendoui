@@ -17,10 +17,12 @@ class MobileSwitch extends InputWidget
      */
     public function run()
     {
+        $options = array_merge($this->options, ['label' => false]);
+
         if ($this->hasModel()) {
-            echo Html::activeCheckbox($this->model, $this->attribute, $this->options);
+            echo Html::activeCheckbox($this->model, $this->attribute, $options);
         } else {
-            echo Html::checkbox($this->name, $this->value, $this->options);
+            echo Html::checkbox($this->name, $this->value, $options);
         }
 
         $this->registerPlugin($this->options['id']);
