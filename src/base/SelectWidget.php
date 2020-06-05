@@ -19,6 +19,10 @@ class SelectWidget extends InputWidget
      * @var array the initial selected item
      *
      * ```php
+     * 'selected' => $model->category
+     *
+     * or
+     *
      * 'selected' => [
      *     'id' => $model->category_id,
      *     'description' => ArrayHelper($model, 'category.description')
@@ -72,7 +76,7 @@ class SelectWidget extends InputWidget
 
         $this->pluginOptions['value'] = $value;
 
-        if (!empty($this->selected) && array_filter(array_values($this->selected))) {
+        if (!empty($this->selected) && $value) {
             $selected = Json::encode($this->selected);
             $template = strtr($this->initSelectedTemplate,['{value}' => $value, '{selected}' => $selected]);
 
