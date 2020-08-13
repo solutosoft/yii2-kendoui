@@ -25,4 +25,4 @@ install:
 
 script:
   - ./tests/yii migrate --interactive=0
-  - phpunit $PHPUNIT_FLAGS
+  - ./vendor/bin/phpunit $PHPUNIT_FLAGS
