@@ -71,7 +71,7 @@ class SelectWidget extends InputWidget
         }
 
         if ($value === null) {
-            $value = '';
+            $value = $this->nullValue();
         }
 
         $this->pluginOptions['value'] = $value;
@@ -88,5 +88,16 @@ class SelectWidget extends InputWidget
         }
 
         $this->registerPlugin($id);
+    }
+
+
+    /**
+     * Null value for `value` option plugin
+     *
+     * @return mixed
+     */
+    protected function nullValue()
+    {
+        return "";
     }
 }

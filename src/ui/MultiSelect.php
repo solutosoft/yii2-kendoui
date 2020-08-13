@@ -10,4 +10,12 @@ class MultiSelect extends SelectWidget
      * @inheritdoc
      */
     public $pluginName = 'kendoMultiSelect';
+
+    /**
+     * @inheritdoc
+     */
+    protected function nullValue()
+    {
+        return [];
+    }
 }
