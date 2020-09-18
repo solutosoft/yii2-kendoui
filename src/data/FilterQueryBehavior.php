@@ -78,9 +78,10 @@ class FilterQueryBehavior extends Behavior
     /**
      * Adds table alias for field name
      * @param string $field
+     * @param boolean $lower
      * @return array
      */
-    protected function normalizeFieldName($field)
+    protected function normalizeFieldName($field, $lower = false)
     {
         if (method_exists($this->owner, 'getTablesUsedInFrom')) {
             $fromTables = $this->owner->getTablesUsedInFrom();
@@ -91,11 +92,11 @@ class FilterQueryBehavior extends Behavior
             }
 
             if (strpos($field, '.') === false) {
-                return $alias . '.' . $field;
+                $field = $alias . '.' . $field;
             }
         }
 
-        return $field;
+        return $lower ? "LOWER($field)" : $field;
     }
 
     /**
@@ -116,11 +117,12 @@ class FilterQueryBehavior extends Behavior
                $field = ArrayHelper::getValue($item, 'field');
                $operator = ArrayHelper::getValue($item, 'operator');
                $value = ArrayHelper::getValue($item, 'value');
+               $lower = $this->getIsLike($operator);
 
                $condition = [
                    $this->_filterOperators[$operator],
-                   $this->normalizeFieldName($field),
-                   $this->formatValue($operator, $value)
+                   $this->normalizeFieldName($field, $lower),
+                   $this->formatValue($value, $operator)
                 ];
 
                $result = empty($result) ? $condition : [$logic, $result, $condition];
@@ -132,13 +134,13 @@ class FilterQueryBehavior extends Behavior
 
     /**
      * Format value used in condition
-     * @param string $operator
      * @param string $value
+     * @param string $operator
      * @return \yii\db\Expression
      */
-    private function formatValue($operator, $value)
+    private function formatValue($value, $operator)
     {
-        if (!in_array($operator, ['startswith', 'endswith', 'contains'])) {
+        if (!$this->getIsLike($operator)) {
             return $value;
         }
 
@@ -156,8 +158,22 @@ class FilterQueryBehavior extends Behavior
                 break;
        }
 
-       $value = preg_replace('/\s+/', '%', $value);
-       return new Expression(Yii::$app->db->quoteValue($value));
+       $value = Yii::$app->db->quoteValue(preg_replace('/\s+/', '%', $value));
+       return new Expression("LOWER($value)");
+    }
+
+    /**
+     * @param string $operator
+     * @return boolean
+     */
+    private function getIsLike($operator)
+    {
+        return in_array($operator, [
+            'startswith',
+            'endswith',
+            'contains',
+            'doesnotcontain'
+        ]);
     }
 
 }

@@ -48,7 +48,7 @@ class FilterQueryBehaviorTest extends TestCase
                     ],
                 ],
             ],[
-                'expected' => "(`person`.`firstName` LIKE '%kurt%other%name%' ESCAPE '\') AND (`person`.`lastName` = 'cobain') AND (`person`.`id` = 10) ORDER BY `person`.`firstName`, `person`.`lastName` DESC",
+                'expected' => "(LOWER(`person`.`firstName`) LIKE LOWER('%kurt%other%name%') ESCAPE '\') AND (`person`.`lastName` = 'cobain') AND (`person`.`id` = 10) ORDER BY `person`.`firstName`, `person`.`lastName` DESC",
                 'filter' => [
                     'logic' => 'and',
                     'filters' =>[
