@@ -19,8 +19,8 @@ class PersonQuery extends ActiveQuery
                     'name' => function($value) {
                         return [
                             'OR',
-                            ['LIKE', 'user.firstName', $value],
-                            ['LIKE', 'user.lastName', $value]
+                            ['LIKE', 'firstName', $value],
+                            ['LIKE', 'lastName', $value]
                         ];
                     }
                 ]

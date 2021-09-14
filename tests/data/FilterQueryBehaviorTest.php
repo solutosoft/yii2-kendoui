@@ -67,7 +67,7 @@ class FilterQueryBehaviorTest extends TestCase
                     ['field' => 'lastName', 'dir' => 'desc'],
                 ]
             ], [
-                'expected' => "(`user`.`firstName` LIKE '%joe%' ESCAPE '\') OR (`user`.`lastName` LIKE '%joe%' ESCAPE '\')",
+                'expected' => "(`firstName` LIKE '%joe%' ESCAPE '\') OR (`lastName` LIKE '%joe%' ESCAPE '\')",
                 'filter' => [
                     'logic' => 'or',
                     'filters' => [
