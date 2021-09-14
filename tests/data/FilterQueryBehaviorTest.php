@@ -16,7 +16,7 @@ class FilterQueryBehaviorTest extends TestCase
     public function testFilter()
     {
         foreach ($this->rulesProvider() as $rule) {
-           $query = Person::find()
+            $query = Person::find()
                 ->filter($rule['filter']);
 
             if (isset($rule['sort'])) {
@@ -27,8 +27,8 @@ class FilterQueryBehaviorTest extends TestCase
                 ->createCommand()
                 ->getRawSql();
 
-           $this->assertContains($rule['expected'], $sql);
-       }
+            $this->assertContains($rule['expected'], $sql);
+        }
     }
 
     /**
@@ -47,11 +47,11 @@ class FilterQueryBehaviorTest extends TestCase
                         ['field' => 'email', 'operator' => 'eq', 'value' => 'bruce@test.com']
                     ],
                 ],
-            ],[
+            ], [
                 'expected' => "(LOWER(`person`.`firstName`) LIKE LOWER('%kurt%other%name%') ESCAPE '\') AND (`person`.`lastName` = 'cobain') AND (`person`.`id` = 10) ORDER BY `person`.`firstName`, `person`.`lastName` DESC",
                 'filter' => [
                     'logic' => 'and',
-                    'filters' =>[
+                    'filters' => [
                         ['field' => 'firstName', 'operator' => 'contains', 'value' => 'kurt other name'],
                         ['field' => 'lastName', 'operator' => 'eq', 'value' => 'cobain'],
                         [
@@ -66,7 +66,17 @@ class FilterQueryBehaviorTest extends TestCase
                     ['field' => 'firstName', 'dir' => 'asc'],
                     ['field' => 'lastName', 'dir' => 'desc'],
                 ]
-            ]/*,[
+            ], [
+                'expected' => "(`user`.`firstName` LIKE '%joe%' ESCAPE '\') OR (`user`.`lastName` LIKE '%joe%' ESCAPE '\')",
+                'filter' => [
+                    'logic' => 'or',
+                    'filters' => [
+                        ['field' => 'name', 'operator' => 'eq', 'value' => 'joe'],
+                    ]
+                ],
+            ]
+
+            /*,[
                 'expected' => '(`email` = ?)',
                 'filter' => [
                     'logic' => 'or',
@@ -78,5 +88,4 @@ class FilterQueryBehaviorTest extends TestCase
             ]*/
         ];
     }
-
 }

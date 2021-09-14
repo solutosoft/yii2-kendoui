@@ -14,7 +14,16 @@ class PersonQuery extends ActiveQuery
     {
         return [
             'filter' => [
-                'class' => FilterQueryBehavior::class
+                'class' => FilterQueryBehavior::class,
+                'conditionMap' => [
+                    'name' => function($value) {
+                        return [
+                            'OR',
+                            ['LIKE', 'user.firstName', $value],
+                            ['LIKE', 'user.lastName', $value]
+                        ];
+                    }
+                ]
             ]
         ];
     }

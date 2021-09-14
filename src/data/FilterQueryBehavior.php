@@ -37,6 +37,33 @@ class FilterQueryBehavior extends Behavior
     ];
 
     /**
+     * Allows to define custom conditions for attribute names.
+     * For example:
+     *
+     * ```php
+     * public function behaviors()
+     * {
+     *     return [
+     *         'filter' => [
+     *             'class' => FilterQueryBehavior::class,
+     *             'conditionMap' =>
+     *                 'name' => function($value) {
+     *                     return [
+     *                         'OR',
+     *                         ['LIKE', 'firstName', $value],
+     *                         ['LIKE', 'lastName', $value]
+     *                     ];
+     *                },
+     *             ]
+     *         ]
+     *     ];
+     * }
+     * ```
+     * @var array
+     */
+    public $conditionMap;
+
+    /**
      * Filters query from $data configuration.
      * @param array $data
      * @return \yii\db\ActiveQueryInterface|static
@@ -118,12 +145,16 @@ class FilterQueryBehavior extends Behavior
                $operator = ArrayHelper::getValue($item, 'operator');
                $value = ArrayHelper::getValue($item, 'value');
                $lower = $this->getIsLike($operator);
+               $callable = isset($this->conditionMap[$field]) ? $this->conditionMap[$field] : null;
 
-               $condition = [
-                   $this->_filterOperators[$operator],
-                   $this->normalizeFieldName($field, $lower),
-                   $this->formatValue($value, $operator)
-                ];
+               $condition = $callable
+                    ? call_user_func($callable, $value)
+                    : [
+                        $this->_filterOperators[$operator],
+                        $this->normalizeFieldName($field, $lower),
+                        $this->formatValue($value, $operator)
+                    ];
+
 
                $result = empty($result) ? $condition : [$logic, $result, $condition];
            }
